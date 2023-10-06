@@ -22,6 +22,7 @@ export const colorsContract = {
   $sliderFillSecondary: '',
   $sliderKnobFill: '',
   $sliderRailFill: '',
+  $tooltipBgColor: '',
 };
 
 export const lightThemeColors: typeof colorsContract = {
@@ -46,6 +47,7 @@ export const lightThemeColors: typeof colorsContract = {
   $sliderFillSecondary: lightColorScheme.$primary_dark_grey,
   $sliderKnobFill: lightColorScheme.$primary_white,
   $sliderRailFill: lightColorScheme.$primary_light_grey_plus,
+  $tooltipBgColor: lightColorScheme.$primary_white,
 };
 
 export const darkThemeColors: typeof colorsContract = {
@@ -75,4 +77,5 @@ export const darkThemeColors: typeof colorsContract = {
   $sliderFillSecondary: darkColorScheme.$primary_light_grey,
   $sliderKnobFill: lightColorScheme.$primary_black,
   $sliderRailFill: darkColorScheme.$primary_dark_grey_plus,
+  $tooltipBgColor: darkColorScheme.$primary_mid_grey,
 };
