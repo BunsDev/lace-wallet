@@ -1,7 +1,7 @@
 import { Wallet } from '@lace/cardano';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { CARDANO_COIN_SYMBOL, LAST_STABLE_EPOCH } from './constants';
+import { CARDANO_COIN_SYMBOL, LAST_STABLE_EPOCH, PERCENTAGE_SCALE_MAX } from './constants';
 import { mapStakePoolToDisplayData } from './mapStakePoolToDisplayData';
 import {
   Command,
@@ -84,22 +84,32 @@ export const useDelegationPortfolioStore = create(
         set((state) => {
           state.cardanoCoinSymbol = CARDANO_COIN_SYMBOL[currentChain.networkId];
         }),
-      setCurrentPortfolio: async ({ currentEpoch, delegationDistribution, delegationRewardsHistory }) => {
+      setCurrentPortfolio: async ({
+        currentEpoch,
+        delegationDistribution,
+        delegationRewardsHistory,
+        delegationPortfolio,
+      }) => {
         const lastNonVolatileEpoch = currentEpoch.epochNo.valueOf() - LAST_STABLE_EPOCH;
         const confirmedRewardHistory = delegationRewardsHistory.all.filter(
           ({ epoch }) => epoch.valueOf() <= lastNonVolatileEpoch
         );
 
-        // TMP: replace by real data from memory/cip
-        const savedPercentages = normalizePercentages(
-          // eslint-disable-next-line no-magic-numbers
-          delegationDistribution.map((item) => ({ ...item, percentage: item.percentage * 100 })),
-          'percentage'
+        let mapOfPoolIdBySavedPercentages: Record<Wallet.Cardano.PoolIdHex, number> = {};
+        if (delegationPortfolio?.pools) {
+          const sum = delegationPortfolio.pools.reduce((acc, { weight }) => acc + weight, 0);
+          const portfolioWithPercentages = delegationPortfolio.pools.map((pool) => ({
+            ...pool,
+            percentage: (pool.weight / sum) * PERCENTAGE_SCALE_MAX,
+          }));
           // eslint-disable-next-line unicorn/no-array-reduce
-        ).reduce((acc, item) => {
-          acc[item.pool.hexId] = item.percentage;
-          return acc;
-        }, {} as Record<Wallet.Cardano.PoolIdHex, number>);
+          mapOfPoolIdBySavedPercentages = normalizePercentages(portfolioWithPercentages, 'percentage').reduce<
+            Record<Wallet.Cardano.PoolIdHex, number>
+          >((acc, { percentage, id }) => {
+            acc[id] = percentage;
+            return acc;
+          }, {});
+        }
 
         const currentPortfolio = delegationDistribution.map(({ pool: stakePool, percentage, stake }) => {
           const confirmedPoolRewards = confirmedRewardHistory
@@ -115,8 +125,8 @@ export const useDelegationPortfolioStore = create(
             id: stakePool.hexId,
             // eslint-disable-next-line no-magic-numbers
             onChainPercentage: percentage * 100,
-            savedIntegerPercentage: savedPercentages[stakePool.hexId] || 0,
-            sliderIntegerPercentage: savedPercentages[stakePool.hexId],
+            savedIntegerPercentage: mapOfPoolIdBySavedPercentages[stakePool.hexId] || 0,
+            sliderIntegerPercentage: mapOfPoolIdBySavedPercentages[stakePool.hexId],
             stakePool,
             value: stake,
           };
