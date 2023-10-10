@@ -4,11 +4,13 @@ import localStorageInitializer from '../fixture/localStorageInitializer';
 import popupView from '../page/popupView';
 import { TestWalletName } from '../support/walletConfiguration';
 import networkManager from '../utils/networkManager';
+import MainLoader from '../elements/MainLoader';
 
 const extendedViewWalletInitialization = async (walletName = TestWalletName.TestAutomationWallet): Promise<void> => {
   await extendedView.visit();
   await localStorageInitializer.initializeWallet(walletName);
   await extendedView.visit();
+  await MainLoader.component.waitForDisplayed({ timeout: 30_000, reverse: true });
   await networkManager.logFailedRequests();
 };
 
@@ -102,10 +104,10 @@ Before(
   async () => await extendedViewWalletInitialization(TestWalletName.TAWalletDelegatedFunds)
 );
 
-Before(
-  { tags: '@Staking-NonDelegatedFunds-Extended' },
-  async () => await extendedViewWalletInitialization(TestWalletName.TAWalletNonDelegatedFunds)
-);
+Before({ tags: '@Staking-NonDelegatedFunds-Extended' }, async () => {
+  await extendedViewWalletInitialization(TestWalletName.TAWalletNonDelegatedFunds);
+  await localStorageInitializer.disableShowingMultidelegationBetaBanner();
+});
 
 Before(
   { tags: '@Staking-SwitchingPools-Extended-E2E' },
@@ -119,10 +121,10 @@ Before(
 
 Before({ tags: '@AdaHandle-popup' }, async () => await popupViewWalletInitialization(TestWalletName.WalletAdaHandle));
 
-Before(
-  { tags: '@Multidelegation-SwitchingPools-Extended-E2E' },
-  async () => await extendedViewWalletInitialization(TestWalletName.WalletMultidelegationSwitchPoolsE2E)
-);
+Before({ tags: '@Multidelegation-SwitchingPools-Extended-E2E' }, async () => {
+  await extendedViewWalletInitialization(TestWalletName.WalletMultidelegationSwitchPoolsE2E);
+  await localStorageInitializer.disableShowingMultidelegationBetaBanner();
+});
 
 Before(
   { tags: '@HdWallet-extended' },

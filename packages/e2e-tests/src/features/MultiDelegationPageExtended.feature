@@ -1,18 +1,16 @@
 @Staking-NonDelegatedFunds-Extended @Testnet @Mainnet
 Feature: Staking Page - Extended View
+  Background:
+    Given I navigate to Staking extended page
 
   @LW-8449 @Testnet @Mainnet
   Scenario: Extended View - Staking search control is displayed with appropriate content
-    Given I disable showing Multidelegation beta banner
-    When I navigate to Staking extended page
-    And I click Browse pools tab
+    When I click Browse pools tab
     Then I see the stake pool search control with appropriate content
 
   @LW-8448 @Testnet
   Scenario Outline: Extended View - Stake pool search for "<stake_pool_search_term>" returns the expected number of results <number_of_results> with appropriate content
-    Given I disable showing Multidelegation beta banner
-    When I navigate to Staking extended page
-    And I click Browse pools tab
+    When I click Browse pools tab
     And I input "<stake_pool_search_term>" into stake pool search bar
     Then there are <number_of_results> stake pools returned for "<stake_pool_search_term>" search term
     And (if applicable) first stake pool search result has "<stake_pool_name>" name and "<stake_pool_ticker>" ticker
@@ -29,9 +27,7 @@ Feature: Staking Page - Extended View
 
   @LW-8448 @Mainnet
   Scenario Outline: Extended View - Stake pool search for "<stake_pool_search_term>" returns the expected number of results <number_of_results> with appropriate content
-    Given I disable showing Multidelegation beta banner
-    When I navigate to Staking extended page
-    And I click Browse pools tab
+    When I click Browse pools tab
     And I input "<stake_pool_search_term>" into stake pool search bar
     Then there are <number_of_results> stake pools returned for "<stake_pool_search_term>" search term
     And (if applicable) first stake pool search result has "<stake_pool_name>" name and "<stake_pool_ticker>" ticker
@@ -48,14 +44,10 @@ Feature: Staking Page - Extended View
 
   @LW-8466 @Testnet @Mainnet
   Scenario: Extended View - "About staking" widget
-    Given I am on Staking extended page
-    And I close Multi-delegation beta modal
     Then I see "About staking" widget with all relevant items
 
   @LW-8465 @Testnet @Mainnet
   Scenario Outline: Extended View - "About staking" widget item click - <subtitle>
-    Given I disable showing Multidelegation beta banner
-    And I am on Staking extended page
     When I click on a widget item with subtitle: "<subtitle>"
     Then I see a "<type>" article with title "<subtitle>"
     Examples:
