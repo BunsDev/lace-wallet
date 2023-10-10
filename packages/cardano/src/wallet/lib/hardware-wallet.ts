@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-null */
-import { Cardano, CML } from '@cardano-sdk/core';
+import { Cardano } from '@cardano-sdk/core';
 import { ObservableWallet, setupWallet, SetupWalletProps } from '@cardano-sdk/wallet';
 import * as KeyManagement from '../../../../../node_modules/@cardano-sdk/key-management/dist/cjs';
 import { ChainName, DeviceConnection, CreateHardwareWalletArgs, HardwareWallets } from '../types';
@@ -157,7 +157,7 @@ export const createHardwareWalletsByChain = async (
     },
     createWallet,
     logger: console,
-    bip32Ed25519: new Crypto.CmlBip32Ed25519(CML)
+    bip32Ed25519: new Crypto.SodiumBip32Ed25519()
   });
   for (const [chainName, chainId] of Object.entries(Cardano.ChainIds)) {
     if (chainId.networkId === activeChainId.networkId && chainId.networkMagic === activeChainId.networkMagic)
@@ -201,7 +201,7 @@ export const createHardwareWalletsByChain = async (
           },
           createWallet,
           logger: console,
-          bip32Ed25519: new Crypto.CmlBip32Ed25519(CML)
+          bip32Ed25519: new Crypto.SodiumBip32Ed25519()
         });
         // Build object with key agents for all chains to be able to switch to eventually
         keyAgentsByChain[chainName as ChainName] = { keyAgentData: keyAgent.serializableData };

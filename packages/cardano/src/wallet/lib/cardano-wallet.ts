@@ -8,8 +8,7 @@ import {
   StakePoolProvider,
   TxSubmitProvider,
   util as coreUtil,
-  UtxoProvider,
-  CML
+  UtxoProvider
 } from '@cardano-sdk/core';
 import {
   setupWallet,
@@ -94,7 +93,7 @@ export const createCardanoWalletsByChain = async (
         ),
       createWallet,
       logger: console,
-      bip32Ed25519: new Crypto.CmlBip32Ed25519(CML)
+      bip32Ed25519: new Crypto.SodiumBip32Ed25519()
     });
 
     return { keyAgent, ...rest };
@@ -191,7 +190,7 @@ export const restoreWallet = async (
     createKeyAgent: async (dependencies) => await restoreKeyAgent(keyAgentData, dependencies, getPassword),
     createWallet,
     logger: console,
-    bip32Ed25519: new Crypto.CmlBip32Ed25519(CML)
+    bip32Ed25519: new Crypto.SodiumBip32Ed25519()
   });
   return { keyAgent, wallet };
 };
@@ -258,7 +257,7 @@ export const validateWalletPassword = async (
     // Not needed for this
     {
       logger: console,
-      bip32Ed25519: new Crypto.CmlBip32Ed25519(CML),
+      bip32Ed25519: new Crypto.SodiumBip32Ed25519(),
       inputResolver: { resolveInput: () => null }
     },
     getPassword
@@ -285,7 +284,7 @@ export const validateWalletMnemonic = async (
     // Not needed for this
     {
       logger: console,
-      bip32Ed25519: new Crypto.CmlBip32Ed25519(CML),
+      bip32Ed25519: new Crypto.SodiumBip32Ed25519(),
       inputResolver: { resolveInput: () => null }
     },
     getPassword
@@ -301,7 +300,7 @@ export const validateWalletMnemonic = async (
     // Not needed for this
     {
       logger: console,
-      bip32Ed25519: new Crypto.CmlBip32Ed25519(CML),
+      bip32Ed25519: new Crypto.SodiumBip32Ed25519(),
       inputResolver: { resolveInput: () => null }
     }
   );
@@ -346,7 +345,7 @@ export const createKeyAgent = (
     keyAgentData,
     {
       logger: console,
-      bip32Ed25519: new Crypto.CmlBip32Ed25519(CML),
+      bip32Ed25519: new Crypto.SodiumBip32Ed25519(),
       inputResolver: walletUtil
     },
     getPassword
