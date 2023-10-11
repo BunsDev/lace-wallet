@@ -25,6 +25,12 @@
   }
 }
 
+.noPools {
+  text-align: center;
+  font-size: var(--bodyLarge);
+  color: var(--text-color-secondary);
+}
+
 .body {
   display: flex;
   flex-direction: column;

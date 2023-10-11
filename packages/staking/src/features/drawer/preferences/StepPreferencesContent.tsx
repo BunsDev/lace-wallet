@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/consistent-destructuring */
 import { Wallet } from '@lace/cardano';
-import { ControlButton, Flex, PIE_CHART_DEFAULT_COLOR_SET, PieChartColor, Text } from '@lace/ui';
+import { Box, ControlButton, Flex, PIE_CHART_DEFAULT_COLOR_SET, PieChartColor, Text } from '@lace/ui';
 import { useTranslation } from 'react-i18next';
 import { DelegationCard, DelegationStatus } from '../../delegation-card';
 import { useOutsideHandles } from '../../outside-handles-provider';
@@ -11,6 +11,7 @@ import {
   sumPercentagesSanitized,
   useDelegationPortfolioStore,
 } from '../../store';
+import { NoPoolsSelected } from './NoPoolsSelected';
 import { PoolDetailsCard } from './PoolDetailsCard';
 
 const getDraftDelegationStatus = ({ draftPortfolio }: DelegationPortfolioStore): DelegationStatus => {
@@ -102,13 +103,18 @@ export const StepPreferencesContent = () => {
         />
       </Flex>
       <Flex flexDirection="column" gap="$16" pb="$32" alignItems="stretch">
+        {displayData.length === 0 && (
+          <Box pt="$20">
+            <NoPoolsSelected onBrowsePoolsButtonClick={onAddPoolButtonClick} />
+          </Box>
+        )}
         {displayData.map(
           ({ color, id, name, stakeValue, onChainPercentage, savedIntegerPercentage, sliderIntegerPercentage }) => (
             <PoolDetailsCard
               key={id}
               color={color}
               name={name}
-              onRemove={draftPortfolio.length > 1 ? createRemovePoolFromPortfolio(id) : undefined}
+              onRemove={createRemovePoolFromPortfolio(id)}
               actualPercentage={onChainPercentage}
               savedPercentage={savedIntegerPercentage}
               targetPercentage={sliderIntegerPercentage}

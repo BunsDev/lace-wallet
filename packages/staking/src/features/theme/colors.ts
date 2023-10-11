@@ -10,6 +10,7 @@ export const colorsContract = {
   $getStartedStepDescriptionColor: '',
   $getStartedStepFillColor: '',
   $getStartedStepNumberColor: '',
+  $greyText: '',
   $multidelegationBetaModalPillBackground: '',
   $multidelegationBetaModalPillText: '',
   $preferencesPoolCardBorderColor: '',
@@ -34,6 +35,7 @@ export const lightThemeColors: typeof colorsContract = {
   $getStartedStepDescriptionColor: lightColorScheme.$primary_dark_grey,
   $getStartedStepFillColor: 'transparent',
   $getStartedStepNumberColor: laceGradient,
+  $greyText: lightColorScheme.$primary_dark_grey,
   $multidelegationBetaModalPillBackground: laceGradient,
   $multidelegationBetaModalPillText: lightColorScheme.$primary_white,
   $preferencesPoolCardBorderColor: lightColorScheme.$primary_light_grey_plus,
@@ -60,6 +62,7 @@ export const darkThemeColors: typeof colorsContract = {
   $getStartedStepDescriptionColor: darkColorScheme.$primary_light_grey,
   $getStartedStepFillColor: darkColorScheme.$primary_mid_black,
   $getStartedStepNumberColor: laceGradient,
+  $greyText: darkColorScheme.$primary_light_grey,
   $multidelegationBetaModalPillBackground: laceGradient,
   // TODO: use darkColorScheme instead
   $multidelegationBetaModalPillText: lightColorScheme.$primary_white,

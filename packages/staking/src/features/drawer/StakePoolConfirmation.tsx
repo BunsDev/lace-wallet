@@ -76,22 +76,26 @@ const StakePoolConfirmationBody = ({
         />
       </div>
       <Icon style={{ color: '#702BED', fontSize: '24px', margin: '12px 0px' }} component={ArrowDown} />
-      {stakePools.map((stakePool) => (
-        <div
-          key={stakePool.id}
-          className={cn(styles.item, styles.itemMulti)}
-          data-testid="sp-confirmation-delegate-to-container"
-        >
-          <ItemStatRenderer
-            img={stakePool.displayData.logo}
-            text={stakePool.displayData.name || '-'}
-            subText={<span>{stakePool.displayData.ticker}</span>}
-          />
-          <div className={styles.itemData}>
-            <Ellipsis beforeEllipsis={10} afterEllipsis={8} text={stakePool.id} ellipsisInTheMiddle />
+      {stakePools.length > 0 ? (
+        stakePools.map((stakePool) => (
+          <div
+            key={stakePool.id}
+            className={cn(styles.item, styles.itemMulti)}
+            data-testid="sp-confirmation-delegate-to-container"
+          >
+            <ItemStatRenderer
+              img={stakePool.displayData.logo}
+              text={stakePool.displayData.name || '-'}
+              subText={<span>{stakePool.displayData.ticker}</span>}
+            />
+            <div className={styles.itemData}>
+              <Ellipsis beforeEllipsis={10} afterEllipsis={8} text={stakePool.id} ellipsisInTheMiddle />
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <div className={styles.noPools}>{t('drawer.confirmation.noPools')}</div>
+      )}
     </div>
   );
 };
@@ -202,13 +206,17 @@ export const StakePoolConfirmation = (): React.ReactElement => {
 
   useEffect(() => {
     (async () => {
-      if (draftPortfolio.length === 0 || loading) return;
+      if (loading) return;
       // TODO: move below logic to zustand store
       try {
         setIsBuildingTx(true);
         const txBuilder = inMemoryWallet.createTxBuilder();
         const pools = draftPortfolio.map((pool) => ({ id: pool.id, weight: pool.sliderIntegerPercentage }));
-        const tx = await txBuilder.delegatePortfolio({ pools }).build().inspect();
+        const tx = await txBuilder
+          // passing null de-registers all stake keys
+          .delegatePortfolio(pools.length > 0 ? { pools } : null)
+          .build()
+          .inspect();
         const implicitCoin = Wallet.Cardano.util.computeImplicitCoin(protocolParameters, tx.body);
         const newDelegationTxDeposit = implicitCoin.deposit;
         const newDelegationTxReclaim = Wallet.util.calculateDepositReclaim(implicitCoin) || BigInt(0);
