@@ -57,6 +57,7 @@ type KeysStructure = {
         title: '';
         subTitle: '';
       };
+      modification: { title: '' };
     };
     failure: {
       title: '';

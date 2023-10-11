@@ -18,14 +18,34 @@ export const TransactionSuccess = ({ popupView }: TransactionSuccessProps): Reac
   const {
     submittingState: { isRestaking },
   } = useOutsideHandles();
+  const { draftPortfolio } = useDelegationPortfolioStore((store) => ({
+    draftPortfolio: store.draftPortfolio,
+  }));
+
+  const { title, description } = useMemo(() => {
+    // un-delegation case
+    if (draftPortfolio?.length === 0) {
+      return {
+        title: t('drawer.success.modification.title'),
+      };
+    }
+    if (isRestaking) {
+      return {
+        description: t('drawer.success.switchedPools.subTitle'),
+        title: t('drawer.success.switchedPools.title'),
+      };
+    }
+
+    return {
+      description: t('drawer.success.subTitle'),
+      title: t('drawer.success.title'),
+    };
+  }, [draftPortfolio, isRestaking, t]);
 
   return (
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     <div className={cn(styles.container, { [styles.popupView!]: popupView })}>
-      <ResultMessage
-        title={isRestaking ? t('drawer.success.switchedPools.title') : t('drawer.success.title')}
-        description={isRestaking ? t('drawer.success.switchedPools.subTitle') : t('drawer.success.subTitle')}
-      />
+      <ResultMessage title={title} description={description} />
     </div>
   );
 };
