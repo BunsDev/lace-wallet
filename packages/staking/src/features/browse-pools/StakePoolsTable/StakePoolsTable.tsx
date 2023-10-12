@@ -112,7 +112,7 @@ export const StakePoolsTable = ({ scrollableTargetId }: StakePoolsTableProps) =>
   );
 
   return (
-    <Box className={styles.stakePoolTable} data-testid="stake-pool-table">
+    <Box className={styles.stakePoolsTable} data-testid="stake-pool-table">
       <Search
         withSearchIcon
         inputPlaceholder={t('browsePools.stakePoolTableBrowser.searchInputPlaceholder')}
