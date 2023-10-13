@@ -32,6 +32,7 @@ export const TransactionSuccess = ({ popupView }: TransactionSuccessProps): Reac
 
 export const TransactionSuccessFooter = ({ popupView }: TransactionSuccessProps): React.ReactElement => {
   const { t } = useTranslation();
+  // q
   const { delegationStoreSetDelegationTxBuilder: setDelegationTxBuilder, walletStoreGetKeyAgentType: getKeyAgentType } =
     useOutsideHandles();
   // TODO implement analytics for the new flow
@@ -53,7 +54,7 @@ export const TransactionSuccessFooter = ({ popupView }: TransactionSuccessProps)
         ? 'AnalyticsEventNames.Staking.STAKING_SUCCESS_POPUP'
         : 'AnalyticsEventNames.Staking.STAKING_SUCCESS_BROWSER',
     });
-    setDelegationTxBuilder();
+    setDelegationTxBuilder(); // reset
     portfolioMutators.executeCommand({ type: 'CancelDrawer' });
     // TODO: Remove this once we pay the `keyAgent.signTransaction` Ledger tech debt up (so we are able to stake multiple times without reloading).
     if (!isInMemory) window.location.reload();

@@ -4,9 +4,9 @@ import { CardanoStakePool } from '../../../types';
 
 export interface DelegationStore {
   selectedStakePool?: CardanoStakePool & { logo?: string };
-  delegationTxBuilder?: TxBuilder;
+  delegationTxBuilder?: TxBuilder; //
   delegationTxFee?: string;
-  setSelectedStakePool: (pool: CardanoStakePool & { logo?: string }) => void;
+  setSelectedStakePool: (pool: CardanoStakePool & { logo?: string }) => void; //
   setDelegationTxBuilder: (txBuilder?: TxBuilder) => void;
   setDelegationTxFee: (fee?: string) => void;
 }

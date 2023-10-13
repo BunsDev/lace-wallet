@@ -30,10 +30,10 @@ export const TransactionFailFooter = ({ popupView }: TransactionFailProps): Reac
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     walletManagerExecuteWithPassword: executeWithPassword,
-    delegationStoreSetDelegationTxBuilder: setDelegationTxBuilder,
-    delegationStoreDelegationTxBuilder: delegationTxBuilder,
+    delegationStoreSetDelegationTxBuilder: setDelegationTxBuilder, // q
+    delegationStoreDelegationTxBuilder: delegationTxBuilder, // q
     password: { password, removePassword },
-    walletStoreInMemoryWallet: inMemoryWallet,
+    walletStoreInMemoryWallet: inMemoryWallet, // q
   } = useOutsideHandles();
   // TODO implement analytics for the new flow
   const analytics = {
@@ -53,13 +53,14 @@ export const TransactionFailFooter = ({ popupView }: TransactionFailProps): Reac
         ? 'AnalyticsEventNames.Staking.STAKING_FAIL_POPUP'
         : 'AnalyticsEventNames.Staking.STAKING_FAIL_BROWSER',
     });
-    setDelegationTxBuilder();
+    setDelegationTxBuilder(); // reset
     portfolioMutators.executeCommand({ type: 'CancelDrawer' });
   };
 
   // TODO unify
   const signAndSubmitTransaction = useCallback(async () => {
     if (!delegationTxBuilder) throw new Error('Unable to submit transaction. The delegationTxBuilder not available');
+    // the same copied from SignConfirmation
     const signedTx = await delegationTxBuilder.build().sign();
     await inMemoryWallet.submitTx(signedTx.tx);
   }, [delegationTxBuilder, inMemoryWallet]);

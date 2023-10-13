@@ -52,10 +52,10 @@ export const SignConfirmation = ({ popupView }: SignConfirmationProps): React.Re
 
 export const SignConfirmationFooter = ({ popupView }: SignConfirmationProps): ReactElement => {
   const {
-    walletStoreInMemoryWallet: inMemoryWallet,
+    walletStoreInMemoryWallet: inMemoryWallet, // q
     password: { password, removePassword },
     submittingState: { setSubmitingTxState, isSubmitingTx, setIsRestaking },
-    delegationStoreDelegationTxBuilder: delegationTxBuilder,
+    delegationStoreDelegationTxBuilder: delegationTxBuilder, // q
     walletManagerExecuteWithPassword: executeWithPassword,
   } = useOutsideHandles();
   const { currentPortfolio, portfolioMutators } = useDelegationPortfolioStore((store) => ({
@@ -73,6 +73,7 @@ export const SignConfirmationFooter = ({ popupView }: SignConfirmationProps): Re
   // TODO unify
   const signAndSubmitTransaction = useCallback(async () => {
     if (!delegationTxBuilder) throw new Error('Unable to submit transaction. The delegationTxBuilder not available');
+    // probably has context implicitly that is built when `set` is called
     const signedTx = await delegationTxBuilder.build().sign();
     await inMemoryWallet.submitTx(signedTx.tx);
   }, [delegationTxBuilder, inMemoryWallet]);

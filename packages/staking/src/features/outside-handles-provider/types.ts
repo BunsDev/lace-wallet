@@ -57,10 +57,10 @@ export type OutsideHandlesContextValue = {
   backgroundServiceAPIContextSetWalletPassword: (password?: Uint8Array) => void;
   expandStakingView?: () => void;
   balancesBalance?: Balance;
-  delegationStoreSetDelegationTxBuilder: (txBuilder?: TxBuilder) => void;
+  delegationStoreSetDelegationTxBuilder: (txBuilder?: TxBuilder) => void; // q
   delegationStoreSetDelegationTxFee: (fee?: string) => void;
   delegationStoreDelegationTxFee?: string;
-  delegationStoreDelegationTxBuilder?: TxBuilder;
+  delegationStoreDelegationTxBuilder?: TxBuilder; // q
   fetchCoinPricePriceResult: {
     cardano: {
       price: number;

@@ -185,12 +185,12 @@ export const StakePoolConfirmation = (): React.ReactElement => {
   const { setIsBuildingTx, setStakingError, stakingError } = useStakingStore();
   const {
     balancesBalance: balance,
-    walletStoreInMemoryWallet: inMemoryWallet,
+    walletStoreInMemoryWallet: inMemoryWallet, // q
     walletStoreWalletUICardanoCoin: cardanoCoin,
     fetchCoinPricePriceResult: priceResult,
     delegationStoreDelegationTxFee: delegationTxFee = '0',
     currencyStoreFiatCurrency: fiatCurrency,
-    delegationStoreSetDelegationTxBuilder: setDelegationTxBuilder,
+    delegationStoreSetDelegationTxBuilder: setDelegationTxBuilder, // q
     delegationStoreSetDelegationTxFee: setDelegationTxFee,
   } = useOutsideHandles();
   const { draftPortfolio } = useDelegationPortfolioStore((store) => ({
@@ -206,13 +206,16 @@ export const StakePoolConfirmation = (): React.ReactElement => {
       // TODO: move below logic to zustand store
       try {
         setIsBuildingTx(true);
+        // tx building logic & saving to txBuilder
         const txBuilder = inMemoryWallet.createTxBuilder();
         const pools = draftPortfolio.map((pool) => ({ id: pool.id, weight: pool.sliderIntegerPercentage }));
         const tx = await txBuilder.delegatePortfolio({ pools }).build().inspect();
         const implicitCoin = Wallet.Cardano.util.computeImplicitCoin(protocolParameters, tx.body);
         const newDelegationTxDeposit = implicitCoin.deposit;
         const newDelegationTxReclaim = Wallet.util.calculateDepositReclaim(implicitCoin) || BigInt(0);
+        // full of fkin side effects
         setDelegationTxBuilder(txBuilder);
+        // need to build tx in this step to show fee/errors
         setDelegationTxFee(tx.body.fee.toString());
         setStakingError();
         setDelegationTxDeposit(Number(newDelegationTxDeposit) - Number(newDelegationTxReclaim));
