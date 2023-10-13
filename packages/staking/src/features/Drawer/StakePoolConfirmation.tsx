@@ -4,6 +4,7 @@ import { InputSelectionFailure } from '@cardano-sdk/input-selection';
 import { Wallet } from '@lace/cardano';
 import { Banner, Button, Ellipsis, useObservable } from '@lace/common';
 import { RowContainer, renderAmountInfo, renderLabel } from '@lace/core';
+import { Flex, Text } from '@lace/ui';
 import { Skeleton } from 'antd';
 import cn from 'classnames';
 import isNil from 'lodash/isNil';
@@ -94,7 +95,11 @@ const StakePoolConfirmationBody = ({
           </div>
         ))
       ) : (
-        <div className={styles.noPools}>{t('drawer.confirmation.noPools')}</div>
+        <Flex justifyContent="center">
+          <Text.Body.Large className={styles.noPoolsText} weight="$semibold">
+            {t('drawer.confirmation.noPools')}
+          </Text.Body.Large>
+        </Flex>
       )}
     </div>
   );
