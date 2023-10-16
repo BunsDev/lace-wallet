@@ -1119,6 +1119,14 @@
       "drepId": "DRep ID",
       "depositReturned": "Deposit returned"
     },
+    "voteDelegation": {
+      "title": "Confirm vote delegation",
+      "metadata": "Metadata",
+      "drepId": "Drep ID",
+      "alwaysAbstain": "Abstain",
+      "alwaysNoConfidence": "No Confidence",
+      "option": "Yes"
+    },
     "destinationAddressInput": {
       "recipientAddress": "Recipient's address or $handle"
     },
