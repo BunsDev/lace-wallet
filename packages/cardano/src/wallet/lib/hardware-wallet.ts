@@ -7,6 +7,8 @@ import { CardanoWalletByChain, KeyAgentsByChain } from './cardano-wallet';
 import { WalletManagerUi } from '@cardano-sdk/web-extension';
 import * as Crypto from '@cardano-sdk/crypto';
 import * as HardwareLedger from '../../../../../node_modules/@cardano-sdk/hardware-ledger/dist/cjs';
+// Using nodejs to satisfy the tests requirements, but this gets replaced by webpack to the browser version in the build
+import * as CML from '@dcspark/cardano-multiplatform-lib-nodejs';
 
 const isTrezorHWSupported = (): boolean => process.env.USE_TREZOR_HW === 'true';
 
@@ -157,7 +159,7 @@ export const createHardwareWalletsByChain = async (
     },
     createWallet,
     logger: console,
-    bip32Ed25519: new Crypto.SodiumBip32Ed25519()
+    bip32Ed25519: new Crypto.CmlBip32Ed25519(CML)
   });
   for (const [chainName, chainId] of Object.entries(Cardano.ChainIds)) {
     if (chainId.networkId === activeChainId.networkId && chainId.networkMagic === activeChainId.networkMagic)
@@ -201,7 +203,7 @@ export const createHardwareWalletsByChain = async (
           },
           createWallet,
           logger: console,
-          bip32Ed25519: new Crypto.SodiumBip32Ed25519()
+          bip32Ed25519: new Crypto.CmlBip32Ed25519(CML)
         });
         // Build object with key agents for all chains to be able to switch to eventually
         keyAgentsByChain[chainName as ChainName] = { keyAgentData: keyAgent.serializableData };
