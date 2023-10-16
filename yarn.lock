@@ -5491,7 +5491,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cardano-sdk/hardware-trezor@npm:~0.2.0":
+"@cardano-sdk/hardware-trezor@npm:0.2.0, @cardano-sdk/hardware-trezor@npm:~0.2.0":
   version: 0.2.0
   resolution: "@cardano-sdk/hardware-trezor@npm:0.2.0"
   dependencies:
@@ -7922,6 +7922,7 @@ __metadata:
     "@cardano-sdk/core": 0.21.0
     "@cardano-sdk/crypto": 0.1.15
     "@cardano-sdk/hardware-ledger": 0.6.0
+    "@cardano-sdk/hardware-trezor": 0.2.0
     "@cardano-sdk/key-management": 0.14.0
     "@cardano-sdk/util": 0.14.2
     "@cardano-sdk/util-dev": 0.17.1
