@@ -100,6 +100,10 @@ describe('Connect Component: ', () => {
       rerender(<WrappedConnectComponent />);
       await waitFor(assert);
 
+      mockUseWalletStore.mockReturnValueOnce({
+        environmentName: 'Sanchonet'
+      });
+
       rerender(<WrappedConnectComponent />);
       await waitFor(assert);
     });
@@ -122,6 +126,10 @@ describe('Connect Component: ', () => {
       });
       rerender(<WrappedConnectComponent />);
       await waitFor(assert);
+
+      mockUseWalletStore.mockReturnValueOnce({
+        environmentName: 'Sanchonet'
+      });
 
       rerender(<WrappedConnectComponent />);
       await waitFor(assert);
