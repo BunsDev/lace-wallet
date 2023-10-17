@@ -100,6 +100,7 @@ const getTransactionDetail =
       );
 
       return {
+        // TODO fix TransactionDetailSlice type
         tx: {
           includedUtcDate: formatDate({ date: epochRewards.spendableDate, format: 'MM/DD/YYYY', type: 'utc' }),
           includedUtcTime: `${formatTime({ date: epochRewards.spendableDate, type: 'utc' })} UTC`,
